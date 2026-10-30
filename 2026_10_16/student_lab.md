@@ -2,7 +2,7 @@
 
 作業的必做範圍、繳交清單與驗收標準見 [assignment.md](assignment.md)。本講義另存後作為實作與測試報告；教師固定狀態示範與學生必寫程式的區別也列於作業說明。
 
-姓名／暱稱：待填　上課日期：待填　JDK 版本：待填
+姓名／暱稱：洪珩毅　上課日期：2026-10-16　JDK 版本：Oracle JDK 24.0.1（以 --release 21 編譯）
 
 本週 A–F 必做，G 選做。故事中的能源是遊戲規則，不是太空工程模型。已有 C# WinForms 經驗：將按鈕選擇行動的想法，轉為主控台整數指令；今天先使用現成 Scanner，不自行設計 Rover 類別。
 
@@ -15,11 +15,11 @@
 
 | 診斷 | 我的預測／理由 | 執行核對 |
 |---|---|---|
-| `7 / 20 * 100.0` 與 `7 / 20.0 * 100` | 待填 | 待填 |
-| energy=6、locked=false，`energy >= 6 && !locked` | 待填 | 待填 |
-| `calculateBatteryPercent(6)` 回傳什麼？誰負責輸出？ | 待填 | 待填 |
+| `7 / 20 * 100.0` 與 `7 / 20.0 * 100` | 前者 7 / 20 先做整數除法得 0，再乘 100.0 得 0.0；後者 20.0 讓除法變浮點除法，得 35.0 | 0.0／35.0，與預測一致|
+| energy=6、locked=false，`energy >= 6 && !locked` | 6 >= 6 為 true，!false 為 true，兩者 && 得 true | true，與預測一致|
+| `calculateBatteryPercent(6)` 回傳什麼？誰負責輸出？ | 回傳 30.0（6 / 20.0 * 100）；方法只回傳，由呼叫端（showDashboard 中的 println）負責輸出 | starter 輸入 0 時儀表板顯示 battery=100.0（energy=20）；calculateBatteryPercent(6) 依同公式為 30.0，符合預測 |
 
-本機 repo 路徑：待填。當日專案：待填。初版 commit：待填。
+本機 repo 路徑：C:\Users\m303\Desktop\115_1_Java。當日專案：2026_10_16。初版 commit：1c48a2b45f2548d3e2a5009c13f36e275ebce7ef。
 
 ## B｜單次指令：先判斷，再更新（40 分鐘）
 
@@ -29,12 +29,12 @@
 
 | energy | 預測 INVALID／LOW／READY | 實際 | 是否一致 |
 |---:|---|---|---|
-| -1 | 待填 | 待填 | 待填 |
-| 0 | 待填 | 待填 | 待填 |
-| 5 | 待填 | 待填 | 待填 |
-| 6 | 待填 | 待填 | 待填 |
-| 20 | 待填 | 待填 | 待填 |
-| 21 | 待填 | 待填 | 待填 |
+| -1 |	INVALID | -1: INVALID | 一致|
+| 0 | 	LOW |	0: LOW | 一致 |
+| 5 | LOW | 	5: LOW |一致 |
+| 6 | 	READY | 6: READY |一致 |
+| 20 | READY |20: READY| 一致 |
+| 21 | 	INVALID | 	21: INVALID | 一致 |
 
 如果先寫 `energy < 6`，再檢查是否小於 0，哪筆資料會被誤分類？理由：待填。
 
@@ -44,10 +44,10 @@
 
 | 初始 energy／command | 預測 energy／samples／訊息 | 實際 |
 |---|---|---|
-| 6／1 | 待填 | 待填 |
-| 5／1 | 待填 | 待填 |
-| 6／2 | 待填 | 待填 |
-| 6／9 | 待填 | 待填 |
+| 6／1 | 	energy=0／samples=2／無提示訊息 | 	energy=0, samples=2 |
+| 5／1 | 	energy=5／samples=0／NOT_ENOUGH_ENERGY | NOT_ENOUGH_ENERGY、energy=5, samples=0 |
+| 6／2 | energy=4／samples=1／無提示訊息 |energy=4, samples=1 |
+| 6／9 | 	energy=6／samples=0／UNKNOWN_COMMAND | UNKNOWN_COMMAND、energy=6, samples=0 |
 
 `switch` 依 command 選 case；`break` 離開 switch；找不到符合值執行 default。暫時移除 case 1 的 break，用 20／1 預測再實測，隨即還原。一次指令做了幾種行動？待填。這與 C# 常見 switch 寫法有何需要特別留意的差異？待填。
 
@@ -59,8 +59,8 @@
 
 | 起點 | 第 1 輪預測／實際 | 第 2 輪預測／實際 | 第 3 輪預測／實際 |
 |---|---|---|---|
-| 4 | 待填／待填 | 待填／待填 | 待填／待填 |
-| 18 | 待填／待填 | 待填／待填 | 待填／待填 |
+| 4 | 	9／9 | 14／14 | 	19／19 |
+| 18 | 	20／20 | 20／20 | 	20／20 |
 
 改成 `round < 3` 會跑幾次？待填。為何把 energy 初始化放在迴圈外？待填。迴圈結束後可以使用 round 嗎？待填。驗證後恢復原版。
 
@@ -89,9 +89,9 @@ RoverMission 的 while 條件：`running && energy > 0 && samples < 5`。各部�
 
 | 輪次／指令 | energy 前→後 | samples 前→後 | actionCount 前→後 | 下輪條件 |
 |---|---|---|---|---|
-| 1／1 | 待填 | 待填 | 待填 | 待填 |
-| 2／1 | 待填 | 待填 | 待填 | 待填 |
-| 3／2 | 待填 | 待填 | 待填 | 待填 |
+| 1／1 | 	20→14 | 	0→2 | 0→1 | 	true（running、14 > 0、2 < 5） |
+| 2／1 | 14→8 | 	2→4 | 	1→2 | 	true（8 > 0、4 < 5）|
+| 3／2 | 	8→6 | 	4→5 | 	2→3 | 	false（5 < 5 不成立），印 SUCCESS |
 
 energy、samples、actionCount 在 while 外建立，可跨輪累計；command 只用於本輪，宣告在 while 裡。若每輪開頭都執行 `samples = 0;` 會怎樣？待填。注意這是重新指定值；不可在其有效範圍內再宣告同名區域變數。
 
@@ -109,18 +109,18 @@ energy、samples、actionCount 在 while 外建立，可跨輪累計；command �
 
 | 指令序列 | 預期最終 energy／samples／actionCount／結果 | 實測 |
 |---|---|---|
-| 0 | 20／0／0／RETURNED | 待填 |
-| 1、1、2 | 6／5／3／SUCCESS | 待填 |
-| 2、2、2、2、2 | 10／5／5／SUCCESS | 待填 |
-| 3、9、0 | 20／0／0／RETURNED | 待填 |
+| 0 | 20／0／0／RETURNED | 	energy=20, samples=0, actionCount=0，RETURNED，與預期一致 |
+| 1、1、2 | 6／5／3／SUCCESS | 	energy=6, samples=5, actionCount=3，SUCCESS，與預期一致 |
+| 2、2、2、2、2 | 10／5／5／SUCCESS | 	energy=10, samples=5, actionCount=5，SUCCESS，與預期一致 |
+| 3、9、0 | 20／0／0／RETURNED | 3 顯示 ALREADY_FULL、9 顯示 UNKNOWN_COMMAND、0 返回；最終 energy=20, samples=0, actionCount=0，RETURNED，與預期一致 |
 
 以下三筆由教師操作固定狀態入口，學生先預測再觀察、填寫實測欄，**不要求每位學生逐筆修改 main**。課後自行複驗時，才暫改 `runMission(input, 20, 0)` 的後兩個引數，測後恢復 20、0。
 
 | 初始 energy／samples | 指令 | 預期最終 energy／samples／actionCount／結果 | 實測 |
 |---|---|---|---|
-| 5／0 | 1、3、0 | 10／0／1／RETURNED | 待填 |
-| 6／0 | 1 | 0／2／1／EXHAUSTED | 待填 |
-| 2／4 | 2 | 0／5／1／SUCCESS | 待填 |
+| 5／0 | 1、3、0 | 10／0／1／RETURNED | 1 顯示 NOT_ENOUGH_ENERGY；3 充電 5→10、actionCount 1；0 返回。最終 energy=10, samples=0, actionCount=1，RETURNED，與預期一致 |
+| 6／0 | 1 | 0／2／1／EXHAUSTED | 探索 6→0、samples 2；能源為 0 迴圈停止。最終 energy=0, samples=2, actionCount=1，EXHAUSTED，與預期一致|
+| 2／4 | 2 | 0／5／1／SUCCESS | 掃描 2→0、samples 5；能源耗盡且達標，成功優先。最終 energy=0, samples=5, actionCount=1，SUCCESS，與預期一致 |
 
 AI 除錯三選一，先保存人工初版。以下是**教師設計的模擬 AI 錯誤**，不是真實服務對話：
 
@@ -134,18 +134,18 @@ AI 除錯三選一，先保存人工初版。以下是**教師設計的模擬 AI
 
 | 證據 | 初始狀態／輸入 | 預期 | 實際結果 |
 |---|---|---|---|
-| 反例：修改前與修正後比較 | 待填 | 待填 | 修改前：待填；修正後：待填 |
-| 修正後一般成功 | 20／0，2、2、2、2、2 | 10／5／5 SUCCESS | 待填 |
-| 修正後返回／拒絕 | 20／0，3、9、0 | 20／0／0 RETURNED | 待填 |
+| 反例：修改前與修正後比較 | 探索一次：14／2／1，RETURNED | 待填 | 修改前：energy=12, samples=3, actionCount=2 ；修正後：energy=14, samples=2, actionCount=1 |
+| 修正後一般成功 | 20／0，2、2、2、2、2 | 10／5／5 SUCCESS | energy=10, samples=5, actionCount=5 |
+| 修正後返回／拒絕 | 20／0，3、9、0 | 20／0／0 RETURNED | energy=20, samples=0, actionCount=0 |
 
 當堂至少完成一筆人工反例、最小修正及重測。若 25 分鐘不足，後兩筆回歸測試可於課後補完，繳交前仍需三筆齊全；不得挪用最後 15 分鐘的保存時間，未測欄位先寫「待補測」。
 
 ## E｜課末檢核與下一週（10 分鐘）
 
-1. 用一句話比較 1、1、2 與五次 2 的策略取捨：待填。
-2. energy=2、samples=4 掃描後為何判定成功？待填。
-3. 若只寫 case 0: break，下一輪會發生什麼？待填。
-4. 只有最後三個狀態值，能否回放每一步？缺少什麼能力？待填。下週將用陣列與集合保存多筆資料，本週不實作。
+1. 用一句話比較 1、1、2 與五次 2 的策略取捨：1、1、2 只用 3 次行動就達標，但能源從 20 用到剩 6；五次 2 要 5 次行動，但能源剩 10，行動較多、能源保留較多。。
+2. energy=2、samples=4 掃描後為何判定成功？掃描成本 2，energy=2 足夠，扣到 0 並讓 samples 變 5；while 條件 energy > 0 與 samples < 5 同時不成立而停止。結果判斷先檢查 samples >= 5，所以成功優先，印 SUCCESS 而不是 EXHAUSTED。。
+3. 若只寫 case 0: break，下一輪會發生什麼？break 只離開 switch，running 仍是 true；若能源與樣本也未達停止條件，while 會進入下一輪再要求輸入，任務無法返回。。
+4. 只有最後三個狀態值，能否回放每一步？缺少什麼能力？不能。只有最後的 energy／samples／actionCount，看不出每一步輸入了什麼指令、各步前後的狀態；缺少保存多筆歷史紀錄（每一步的指令與狀態）的能力。下週將用陣列與集合保存多筆資料，本週不實作。
 
 ## F｜保存、推送、取回驗證（15 分鐘）
 
