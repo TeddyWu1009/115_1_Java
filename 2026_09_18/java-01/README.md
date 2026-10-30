@@ -30,7 +30,7 @@ java -cp out GreetingApp
 
 ## 預期輸出
 
-`Hello, Java!`：
+`Hello, my Java course!`：
 
 ```text
 Hello, my Java course!
