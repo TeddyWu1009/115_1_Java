@@ -56,8 +56,8 @@ java -cp out HelloCourse
 | 執行方式 | JDK | 實際程式輸出／證據 | 是否符合預期 |
 |---|---|---|---|
 | PowerShell | 21 | `Hello, Java!`／`Course: Object-Oriented Programming` | 符合 |
-| VS Code | 【自填】Java: Configure Java Runtime 選定的 JDK 21 | 【自填】Terminal 兩行輸出（截圖位置） | 【自填】 |
-| IntelliJ IDEA | 【自填】Project Structure → SDK 21 | 【自填】Run 視窗兩行輸出（截圖位置） | 【自填】 |
+| VS Code | 	24.0.1（Java: Configure Java Runtime 選 jdk-24）"C:\Users\m303\Desktop\115_1_Java\2026_09_18\screenshots\vscode_HelloCourse.png"Java: Configure Java Runtime 選定的 JDK 21 | "C:\Users\m303\Desktop\115_1_Java\2026_09_18\screenshots\PW hello.png" | 符合 |
+| IntelliJ IDEA | IDEA	24.0.1（Project Structure → SDK 選 jdk-24） | "C:\Users\m303\Desktop\115_1_Java\2026_09_18\screenshots\idea_HelloCourse.png" | 符合|
 
 請解釋：IDE 啟動路徑不同，但程式輸出相同，是否正常？`javac` 與 `java` 各負責哪一段？
 
@@ -89,8 +89,8 @@ java -cp out GreetingApp
 
 | 工具 | 三行輸出／截圖位置 | 與命令列結果是否一致 |
 |---|---|---|
-| VS Code | 【自填】 | 【自填】 |
-| IntelliJ IDEA | 【自填】 | 【自填】 |
+| VS Code | "C:\Users\m303\Desktop\115_1_Java\2026_09_18\screenshots\vscode_GreetingApp.png" | 一致 |
+| IntelliJ IDEA | "C:\Users\m303\Desktop\115_1_Java\2026_09_18\screenshots\idea_GreetingApp.png" | 一致 |
 
 ### B3. 追蹤方法呼叫
 
@@ -165,9 +165,9 @@ out/
 
 | 核對項目 | 實際結果 |
 |---|---|
-| repo 網址／分支 | 【自填】`https://github.com/帳號/115_1_Java`／main |
-| History 與 GitHub 最新 commit 是否一致 | 【自填】例：一致，皆為 `xxxxxxx` |
-| 日期下的程式與紀錄是否齊全 | 【自填】例：`2026_09_18/java-01/src` 兩支程式、`java-01/README.md`、`LAB_REPORT.md`、`AI_USAGE.md` 皆為最新 |
+| repo 網址／分支 |    https://github.com/TeddyWu1009/115_1_Java／main |
+| History 與 GitHub 最新 commit 是否一致 | 一致，皆為 f21de49|
+| 日期下的程式與紀錄是否齊全 | 齊全：2026_09_18/java-01/src 兩支程式、java-01/README.md、LAB_REPORT.md、AI_USAGE.md 皆為最新 |
 
 ### E2. 新位置 Clone，演練下次還原後取回
 
@@ -178,7 +178,7 @@ java -cp out GreetingApp
 ```
 
 - 此次 Clone 的 commit、實際路徑與兩支程式輸出：
-  - commit：【自填】　路徑：【自填】例：`...\115_1_Java-check`
+  - commit：f21de49　路徑：：C:\Users\m303\Desktop\115_1_Java-check
   - `HelloCourse`：`Hello, my Java course!`／`Course: Object-Oriented Programming`（修改後內容）
   - `GreetingApp`：`Hello, Ada!`／`Hello, Grace!`／`Hello, Ada Lovelace!`
 - 下次剛 Clone 後為何要重新編譯？
@@ -196,7 +196,7 @@ java -cp out GreetingApp
 
 ### E4. 失敗處理
 
-- 本次問題與保存方式：【自填】沒有遇到填「未遇到」
+- 本次問題與保存方式：未遇到沒有遇到填「未遇到」
 
 ## F｜AI 審查、人工驗證與最終提交
 
