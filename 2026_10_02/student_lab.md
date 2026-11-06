@@ -145,7 +145,7 @@ static double calculateBatteryPercent(int energy) {
 1. 對方說「回傳 double 所以一定有小數」，用 energy=7 解釋反例：energy / 20 兩邊都是 int，先做整數除法：7 / 20 得 0，小數部分已經被捨去；之後才乘 100.0 得 0.0。回傳型態是 double 只代表最後結果以 double 表示，不會補回之前被捨去的部分，所以得到 0.0 而不是 35.0。。
 2. 為何只測 energy=0 和 20 可能漏掉問題？0 和 20 剛好都能整除：0 / 20 = 0 得 0.0，20 / 20 = 1 得 100.0，錯誤版本也會「答對」。只有 1 至 19 這種除不盡的值（例如 7）才會因整數除法被捨去而暴露錯誤，所以要測中間值。
 3. 在測試副本重現錯誤，實際輸出與最小修正：副本改成 return energy / 20 * 100.0;，energy=7 實際輸出 能源：7；電量百分比：0.0。最小修正：把 20 改成 20.0，即 return energy / 20.0 * 100;，重跑得 35.0。。
-4. 恢復正確程式，再跑 D 的六筆。證據位置：已恢復 return energy / 20.0 * 100;，六筆結果見本講義 D 的測試表，皆通過；AI 紀錄見 AI_USAGE_WEEK02.md。。
+4. 恢復正確程式，再跑 D 的六筆。證據位置：已恢復 return energy / 20.0 * 100;，六筆結果見本講義 D 的測試表，皆通過；AI 紀錄見 AI_USAGE_template.md。。
 5. 用 AI_USAGE 範本記錄實際對話。沒有 AI 權限可自行解釋本情境，並明寫未使用服務；不捏造模型、回覆或測試。
 
 ## F. 課末檢核（15 分鐘）
@@ -172,7 +172,7 @@ static double calculateBatteryPercent(int energy) {
 | 保存證據 | 填寫 |
 |---|---|
 | 最終 commit／GitHub 連結 | 68a70a2a6327ed70b3203737a3413117609adc56/https://github.com/TeddyWu1009/115_1_Java/commit/68a70a2a6327ed70b3203737a3413117609adc56/2026_10_02 |
-| 網站來源檔、紀錄與本機一致 | 一致：GitHub main 的 2026_10_02/java-02/src 三支程式、java-02/README.md、LAB_REPORT_WEEK02.md、AI_USAGE_WEEK02.md 與本機相同 |
+| 網站來源檔、紀錄與本機一致 | 一致：GitHub main 的 2026_10_02/java-02/src 三支程式、java-02/README.md、student_lab.md、AI_USAGE_template.md 與本機相同 |
 | 尚未完成與後續事項 | 續事項	無 |
 
 CLI 選讀：已有副本且工作已保存時，依第一週補充使用 `git pull --ff-only`；結束用 `git add`（明確檔案）、`git commit`、`git push`。命令失敗先確認路徑與歷史，不強制推送。
