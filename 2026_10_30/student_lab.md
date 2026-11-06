@@ -249,8 +249,8 @@ battery=60.0
 - commit、push，核對 GitHub main 最新 commit 與來源檔。只 commit 或 Changes 空白不代表已推送。
 - 在另一位置 clone，同一專案重新編譯並跑 MissionLog；課堂不足可課後完成。
 
-GitHub repo/作業目錄：https://github.com/TeddyWu1009/115_1_Java／2026_10_30；最終 commit：【自填：push 後的 commit 編號】。
-本人新副本 JDK/編譯/預設輸出：【自填：在另一位置 clone 後，於 java-04 編譯並執行 MissionLog 的結果；未做則標示待補】。
+GitHub repo/作業目錄：https://github.com/TeddyWu1009/115_1_Java／2026_10_30；最終 commit：b158487843b12ee594a4d0b82f732916b2508a8c。
+本人新副本 JDK/編譯/預設輸出：待補（尚未在另一位置 clone 驗證）。
 推送若失敗先請教師協助，仍無法推送時保存完整 repo 至不會還原的位置，確認可讀並後續補推。
 
 ## 課後選做

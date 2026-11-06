@@ -154,7 +154,7 @@ AI 除錯三選一，先保存人工初版。以下是**教師設計的模擬 AI
 - [ ] 有家中副本，續作前 Fetch／Pull；CLI 選讀使用 `git pull --ff-only`，失敗先請教師診斷，不強制覆蓋。
 - [ ] 以不同本機路徑建立全新 clone，在 java-03 重編譯並跑 1、1、2；不可刪原副本。未完成者標示待驗證。
 
-最新 commit／遠端核對：【自填：push 後的 commit 編號與 GitHub 核對結果】。全新 clone 路徑、版本、指令、結果：【自填：在不同路徑 clone，於 java-03 執行 `javac --release 21 -encoding UTF-8 -d out src/*.java`、`java -cp out RoverMission`，輸入 1、1、2，記錄結果】。未完成事項：【自填】。推送失敗時保留完整 repo 到不受還原影響的位置、確認可讀並請教師協助，不直接關機。
+最新 commit／遠端核對：【b158487843b12ee594a4d0b82f732916b2508a8c】。全新 clone 路徑、版本、指令、結果：【自填：在不同路徑 clone，於 java-03 執行 `javac --release 21 -encoding UTF-8 -d out src/*.java`、`java -cp out RoverMission`，輸入 1、1、2，記錄結果】。未完成事項：【無】。推送失敗時保留完整 repo 到不受還原影響的位置、確認可讀並請教師協助，不直接關機。
 
 ## G｜課後選做
 
