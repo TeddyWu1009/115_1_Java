@@ -36,7 +36,7 @@
 | 20 | READY |20: READY| 一致 |
 | 21 | 	INVALID | 	21: INVALID | 一致 |
 
-如果先寫 `energy < 6`，再檢查是否小於 0，哪筆資料會被誤分類？理由：待填。
+如果先寫 `energy < 6`，再檢查是否小於 0，哪筆資料會被誤分類？理由：-1 會被誤分成 LOW。因為 -1 < 6 先成立，進入 LOW 分支後 else if 就不再判斷，輪不到「小於 0 為 INVALID」的檢查；所以要先排除無效範圍再分類。
 
 ### B2 單次行動
 
@@ -49,7 +49,7 @@
 | 6／2 | energy=4／samples=1／無提示訊息 |energy=4, samples=1 |
 | 6／9 | 	energy=6／samples=0／UNKNOWN_COMMAND | UNKNOWN_COMMAND、energy=6, samples=0 |
 
-`switch` 依 command 選 case；`break` 離開 switch；找不到符合值執行 default。暫時移除 case 1 的 break，用 20／1 預測再實測，隨即還原。一次指令做了幾種行動？待填。這與 C# 常見 switch 寫法有何需要特別留意的差異？待填。
+`switch` 依 command 選 case；`break` 離開 switch；找不到符合值執行 default。暫時移除 case 1 的 break，用 20／1 預測再實測，隨即還原。一次指令做了幾種行動？兩種：輸入 1 時探索（20→14、samples 2）後沒有 break，繼續往下執行 case 2 的掃描（14→12、samples 3），一個指令做了探索加掃描。這與 C# 常見 switch 寫法有何需要特別留意的差異？C# 不允許有程式碼的 case 漏掉 break 直接落到下一個 case，會編譯錯誤；Java 允許 fall-through，可以正常編譯但行為錯誤，所以每個 case 尾端都要自己確認有 break。
 
 ## C｜迴圈讓任務持續（50 分鐘）
 
@@ -62,7 +62,7 @@
 | 4 | 	9／9 | 14／14 | 	19／19 |
 | 18 | 	20／20 | 20／20 | 	20／20 |
 
-改成 `round < 3` 會跑幾次？待填。為何把 energy 初始化放在迴圈外？待填。迴圈結束後可以使用 round 嗎？待填。驗證後恢復原版。
+改成 `round < 3` 會跑幾次？2 次（round=1、2）。為何把 energy 初始化放在迴圈外？energy 要跨輪累計，每輪在前一輪的結果上加 5；若在迴圈內初始化，每輪都會重設，結果永遠只加一次。迴圈結束後可以使用 round 嗎？不行。round 宣告在 for 的小括號內，有效範圍只到迴圈結束；迴圈後只能讀 energy。驗證後恢復原版。
 
 ### C2 讀取指令（10 分鐘）
 
@@ -77,13 +77,13 @@ int command = input.nextInt();
 
 Scanner 是現成輸入工具；System.in 是標準輸入；nextInt 取得一個整數，無資料時等待輸入。`input.close()` 放所有任務完成之後；此獨立程式結束後不再讀取標準輸入。今天輸入 Java int 範圍內整數，不混用 nextLine；非整數、輸入結束及例外處理留後續。
 
-將 RoverMission 的 TODO 原版跑一次，輸入 9 再輸入 0。兩者訊息：待填。為何輸入 0 後仍會印最後一次儀表板？待填。
+將 RoverMission 的 TODO 原版跑一次，輸入 9 再輸入 0。兩者訊息：輸入 9 印 UNKNOWN_COMMAND，接著儀表板 energy=20, samples=0, actionCount=0；輸入 0 沒有提示訊息，印儀表板後再印 RETURNED。為何輸入 0 後仍會印最後一次儀表板？case 0 只把 running 設為 false，break 離開 switch 後仍會執行 switch 後面的 showDashboard；要等回到 while 判斷條件時才停止。
 
 ### C3 先判斷或後判斷、狀態追蹤（25 分鐘）
 
-執行 LoopComparison 前預測 whileCount=待填、doCount=待填；實際=待填。兩者第一次條件為 false 時有何差異？待填。
+執行 LoopComparison 前預測 whileCount=0、doCount=1；實際=while=0, do-while=1。兩者第一次條件為 false 時有何差異？while 先判斷，條件一開始就是 false，主體一次都不執行；do-while 先執行一次主體再判斷，所以至少執行一次。
 
-RoverMission 的 while 條件：`running && energy > 0 && samples < 5`。各部分為 false 的停止原因依序是：待填／待填／待填。命令 0 的 break 只離 switch；真正讓下一輪停止的是：待填。
+RoverMission 的 while 條件：`running && energy > 0 && samples < 5`。各部分為 false 的停止原因依序是：使用者輸入 0 主動返回／能源耗盡為 0／樣本已達 5 份完成任務。命令 0 的 break 只離 switch；真正讓下一輪停止的是：running 旗標被設為 false，下一次 while 判斷條件時不成立。
 
 預測完成後程式的路線 1、1、2（此時先用紙筆，D 完成後回填實測）：
 
@@ -93,7 +93,7 @@ RoverMission 的 while 條件：`running && energy > 0 && samples < 5`。各部�
 | 2／1 | 14→8 | 	2→4 | 	1→2 | 	true（8 > 0、4 < 5）|
 | 3／2 | 	8→6 | 	4→5 | 	2→3 | 	false（5 < 5 不成立），印 SUCCESS |
 
-energy、samples、actionCount 在 while 外建立，可跨輪累計；command 只用於本輪，宣告在 while 裡。若每輪開頭都執行 `samples = 0;` 會怎樣？待填。注意這是重新指定值；不可在其有效範圍內再宣告同名區域變數。
+energy、samples、actionCount 在 while 外建立，可跨輪累計；command 只用於本輪，宣告在 while 裡。若每輪開頭都執行 `samples = 0;` 會怎樣？每輪都把樣本清空，samples 無法跨輪累計，最多只有單次行動的 1 或 2 份，永遠到不了 5；例如 1、1、2 不會 SUCCESS，只能靠返回或能源耗盡結束。注意這是重新指定值；不可在其有效範圍內再宣告同名區域變數。
 
 ## D｜補完互動任務與 AI 除錯（25 分鐘）
 
@@ -128,13 +128,13 @@ AI 除錯三選一，先保存人工初版。以下是**教師設計的模擬 AI
 2. AI 認為 case 1 尾端 break 多餘，將它移除。
 3. AI 在每次 while 開頭加上 `samples = 0;`。
 
-選第待填題。預測會錯的輸入：待填。最小修正：待填。採納或拒絕原因：待填。整份紀錄可只使用同一個模擬 AI 錯誤，不必測完三種錯誤，也無須取得 AI 帳號。
+選第 2 題（移除 case 1 的 break）。預測會錯的輸入：預設 20／0 輸入 1 再輸入 0，應只探索一次得 14／2／1，但會落到 case 2 再掃描一次。最小修正：在 case 1 尾端補回 `break;`。採納或拒絕原因：拒絕。Java 的 switch 沒有 break 會 fall-through 到下一個 case，break 不是多餘的；移除後一個指令做了兩種行動，能源、樣本與行動次數都錯。整份紀錄可只使用同一個模擬 AI 錯誤，不必測完三種錯誤，也無須取得 AI 帳號。
 
 對所選錯誤保留以下三筆證據：第一筆記錄錯誤重現與修正；後兩筆確認修正後仍可成功及返回。狀態順序為 energy／samples／actionCount；AI_USAGE 可直接引用本表，不必重抄，但不能只填「通過」。
 
 | 證據 | 初始狀態／輸入 | 預期 | 實際結果 |
 |---|---|---|---|
-| 反例：修改前與修正後比較 | 探索一次：14／2／1，RETURNED | 待填 | 修改前：energy=12, samples=3, actionCount=2 ；修正後：energy=14, samples=2, actionCount=1 |
+| 反例：修改前與修正後比較 | 探索一次：14／2／1，RETURNED | 20／0 輸入 1、0，應為 14／2／1 RETURNED | 修改前：energy=12, samples=3, actionCount=2 ；修正後：energy=14, samples=2, actionCount=1 |
 | 修正後一般成功 | 20／0，2、2、2、2、2 | 10／5／5 SUCCESS | energy=10, samples=5, actionCount=5 |
 | 修正後返回／拒絕 | 20／0，3、9、0 | 20／0／0 RETURNED | energy=20, samples=0, actionCount=0 |
 
@@ -154,7 +154,7 @@ AI 除錯三選一，先保存人工初版。以下是**教師設計的模擬 AI
 - [ ] 有家中副本，續作前 Fetch／Pull；CLI 選讀使用 `git pull --ff-only`，失敗先請教師診斷，不強制覆蓋。
 - [ ] 以不同本機路徑建立全新 clone，在 java-03 重編譯並跑 1、1、2；不可刪原副本。未完成者標示待驗證。
 
-最新 commit／遠端核對：待填。全新 clone 路徑、版本、指令、結果：待填。未完成事項：待填。推送失敗時保留完整 repo 到不受還原影響的位置、確認可讀並請教師協助，不直接關機。
+最新 commit／遠端核對：【自填：push 後的 commit 編號與 GitHub 核對結果】。全新 clone 路徑、版本、指令、結果：【自填：在不同路徑 clone，於 java-03 執行 `javac --release 21 -encoding UTF-8 -d out src/*.java`、`java -cp out RoverMission`，輸入 1、1、2，記錄結果】。未完成事項：【自填】。推送失敗時保留完整 repo 到不受還原影響的位置、確認可讀並請教師協助，不直接關機。
 
 ## G｜課後選做
 

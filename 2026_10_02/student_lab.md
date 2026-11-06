@@ -28,7 +28,7 @@ java -cp out RoverDashboard
 | GitHub repo、取回的 commit | https://github.com/TeddyWu1009/115_1_Java ／ 取回 commit66cd250d91b1a180ebc9a99352b7165e97beb7b2 |
 | `java -version`、`javac -version` | java version "24.0.1" 2025-04-15／javac 24.0.1；JDK 24 以 --release 21 編譯，保持目標版本 21 |
 
-診斷：`double p = calculateBatteryPercent(7);` 的引數、參數、回傳值各是什麼？`return` 會自動顯示到畫面嗎？回答：待填。
+診斷：`double p = calculateBatteryPercent(7);` 的引數、參數、回傳值各是什麼？`return` 會自動顯示到畫面嗎？回答：引數是呼叫時傳入的 7；參數是方法宣告的 `int energy`，呼叫時收到 7；回傳值是 `7 / 20.0 * 100` 得到的 35.0，交回給呼叫端存進 p。`return` 不會自動顯示到畫面，要由 main 用 `System.out.println` 輸出才看得到。
 
 ## A. 為探測車選型（15 分鐘）
 
@@ -40,7 +40,7 @@ java -cp out RoverDashboard
 | 電量百分比 35.0 | double | 百分比有小數，用浮點數；Java 小數常值預設就是 double |
 | 是否鎖定 false | bool | Java 寫 boolean，只能是 true／false，不能用 0／1 代替 |
 
-1. Java 的八種基本型態：待填。哪個常用型態不在其中？byte、short、int、long、float、double、char、boolean。哪個常用型態不在其中？String。它是類別（參考型態），不是基本型態。。
+1. Java 的八種基本型態：byte、short、int、long、float、double、char、boolean。哪個常用型態不在其中？String。它是類別（參考型態），不是基本型態。。
 2. Java 能寫 `bool locked = false;` 或 `string name = "赤砂號";` 嗎？修正：都不能。Java 沒有 bool 與小寫 string，修正為 boolean locked = false;、String name = "赤砂號";。
 3. `char zone = 'A';` 與 `String zone = "A";` 的型態是否相同？不同。char 是基本型態，存一個字元，用單引號；String 是參考型態，指向字串物件，用雙引號，即使內容只有一個字也不是 char。。
 4. `long distance = 3000000000L;` 與 `float sensor = 3.5F;` 的後綴用途：整數常值預設是 int，3000000000 超過 int 上限（約 21 億），加 L 才是 long 常值，否則編譯錯誤；小數常值預設是 double，指定給 float 會可能失去精度而編譯錯誤，加 F 表示 float 常值。
@@ -61,7 +61,7 @@ java -cp out RoverDashboard
 | `String logName = consoleName;` | 赤砂號 | 	赤砂號 |
 | `consoleName = "晨星號";` | 	晨星號 | 	赤砂號 |
 
-畫出最後兩個變數與字串物件的箭頭：待填。這是重新指定參考，還是修改「赤砂號」物件？待填。能據此推論所有參考物件都不能修改嗎？待填。
+畫出最後兩個變數與字串物件的箭頭：consoleName →「晨星號」物件；logName →「赤砂號」物件。這是重新指定參考，還是修改「赤砂號」物件？是重新指定參考：consoleName 改指向另一個字串物件，「赤砂號」物件本身沒有被修改，logName 仍指向它。能據此推論所有參考物件都不能修改嗎？不能。String 是不可變物件，所以只能重新指定；但其他參考物件（例如陣列、ArrayList）可以透過參考修改內容，共用同一物件的變數都會看到改變。
 
 密室門禁短題（最多 5 分鐘，已含在本節）：
 
@@ -77,7 +77,7 @@ System.out.println(code.equals(receivedCode));
 | `code == receivedCode` |	false | false | 兩個變數是否指向同一個物件（參考位址）；new String 建立了另一個物件，所以不同 |
 | `code.equals(receivedCode)` | 	true | 	true | 兩個字串的內容（字元序列）是否相同；都是 MARS，所以相同 |
 
-教師用 `new String` 保證兩個不同字串參考，不要求自行設計類別。若兩個字串常值用 `==` 恰好得到 true，為何不能據此用 `==` 實作一般通行碼內容比較？待填。
+教師用 `new String` 保證兩個不同字串參考，不要求自行設計類別。若兩個字串常值用 `==` 恰好得到 true，為何不能據此用 `==` 實作一般通行碼內容比較？兩個字串常值可能共用同一個物件，`==` 才剛好得到 true；但實際收到的通行碼常是執行時建立的新字串物件（例如輸入、`new String`），內容相同也不是同一物件，`==` 會得到 false。`==` 比較的是參考，比較內容要用 `equals`。
 
 `null` 表示參考未指向物件；本週字串題使用非 null 資料，先不加完整防護。
 
@@ -95,7 +95,7 @@ System.out.println(code.equals(receivedCode));
 | `"合計=" + 2 + 3` | 	合計=23 | 	合計=23 | 由左至右："合計=" + 2 先變字串 合計=2，再接 3 得 合計=23（String） |
 | `"合計=" + (2 + 3)` | 合計=5 | 合計=5 | 括號先算 2 + 3 得 5（int），再與字串串接得 合計=5（String） |
 
-1. `int n=0; n+=2; n++; n--;` 最後 n：待填。`n++` 作獨立敘述有何用途？單獨一行時 n++ 與 n += 1、n = n + 1 效果相同，就是把 n 加 1，常用在計數。。
+1. `int n=0; n+=2; n++; n--;` 最後 n：2（0 → 2 → 3 → 2）。`n++` 作獨立敘述有何用途？單獨一行時 n++ 與 n += 1、n = n + 1 效果相同，就是把 n 加 1，常用在計數。。
 2. 能源介於 0 與 20（含兩端）的條件：energy >= 0 && energy <= 20。不要寫數學連寫 `0 <= energy <= 20`。
 3. 能源至少 6 且未鎖定的條件：energy >= 6 && !locked。
 4. 能源無效（小於 0 或大於 20）的條件：energy < 0 || energy > 20。
@@ -130,7 +130,7 @@ short-circuit evaluation 追蹤：`reportCheck()` 會印「右側檢查已執行
 | 20 | false | 100.0／3／2／true | 100.0／3／2／true | 通過 |
 | 6 | true | 30.0／1／0／false | 30.0／1／0／false| 通過 |
 
-獨立範圍題：只評估 `energy >= 0 && energy <= 20`；分別代入 -1、0、20、21，結果：待填。-1、21 不屬於本週計算方法的輸入契約，不要求儀表板拒絕這些值。
+獨立範圍題：只評估 `energy >= 0 && energy <= 20`；分別代入 -1、0、20、21，結果：-1 → false、0 → true、20 → true、21 → false。-1、21 不屬於本週計算方法的輸入契約，不要求儀表板拒絕這些值。
 
 ## E. AI 建議反例與自主驗證（20 分鐘）
 
@@ -177,7 +177,7 @@ static double calculateBatteryPercent(int energy) {
 
 CLI 選讀：已有副本且工作已保存時，依第一週補充使用 `git pull --ff-only`；結束用 `git add`（明確檔案）、`git commit`、`git push`。命令失敗先確認路徑與歷史，不強制推送。
 
-課後重現：將已推送 repo clone 到另一個不存在的檢查位置，在當日 java-02 重新編譯並執行；不要複製 out。記錄 clone commit 與輸出：待填。此步可依教師安排課後完成。
+課後重現：將已推送 repo clone 到另一個不存在的檢查位置，在當日 java-02 重新編譯並執行；不要複製 out。記錄 clone commit 與輸出：【自填：在另一位置 clone 後，記錄 commit 與 `java -cp out RoverDashboard` 的輸出】。此步可依教師安排課後完成。
 
 ## 下週入口
 
